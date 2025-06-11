@@ -63,6 +63,7 @@ utils::globalVariables(c(
 #' )
 #' @export
 
+data<-rio::import("/Users/alicecarr/Desktop/test_antro.csv")
 impute_timewindow <- function(data,
                               variable,
                               patient_id_col,
@@ -137,26 +138,35 @@ impute_timewindow <- function(data,
     dplyr::ungroup()
 
   # Impute if within window
+
+  carried_col <- rlang::sym(paste0(variable, "_carried"))
+  imputed_col <- rlang::sym(paste0("imputed_value_", variable))
+
   data <- data %>%
     dplyr::mutate(
-      imputed_value = ifelse(
+      !!imputed_col := dplyr::if_else(
         is.na(!!var_sym) & Number_Of_Days <= window_days,
         nearest_value,
         NA_real_
       ),
-      !!paste0("imputed_value_", variable) := ifelse(is.na(!!var_sym), imputed_value, !!var_sym),
-      !!paste0(variable, "_carried") := dplyr::case_when(
-        is.na(!!var_sym) & !is.na(imputed_value) ~ TRUE,
-        is.na(!!var_sym) & is.na(imputed_value) ~ NA,
+      !!carried_col := dplyr::case_when(
+        is.na(!!var_sym) & !is.na(!!imputed_col) ~ TRUE,
+        is.na(!!var_sym) & is.na(!!imputed_col) ~ NA,
         TRUE ~ FALSE
       )
     ) %>%
+  dplyr::mutate(
+    !!var_sym := ifelse(
+      !!rlang::sym(paste0(variable, "_carried")) == TRUE,
+      !!rlang::sym(paste0("imputed_value_", variable)),
+      !!var_sym
+    )
+  ) %>%
     dplyr::select(-c(
       obs_time,
       obs_value,
       nearest_value,
       Number_Of_Days,
-      imputed_value,
       row_id
     ))
 

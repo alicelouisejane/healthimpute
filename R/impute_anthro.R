@@ -200,8 +200,8 @@
 
    data_final <- left_join(data,data_new) %>%
      dplyr::mutate(
-       !!variable := dplyr::if_else(is.na(!!var_sym), .data[[paste0("imputed_value_", variable)]], !!var_sym),
-       !!paste0(variable, "_carried") := dplyr::if_else(observed == FALSE & !is.na(.data[[variable]]), TRUE, FALSE)
+       !!variable := ifelse(is.na(!!var_sym), .data[[paste0("imputed_value_", variable)]], !!var_sym),
+       !!paste0(variable, "_carried") := ifelse(observed == FALSE & !is.na(.data[[variable]]), TRUE, FALSE)
      ) %>%
      dplyr::select(dplyr::all_of(names(data)), dplyr::contains(c("imputed_value", "carried")))
 
