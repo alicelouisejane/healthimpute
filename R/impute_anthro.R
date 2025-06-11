@@ -72,6 +72,7 @@
    var_sym <- rlang::sym(variable)
    age_sym<-rlang::sym(age_col)
    data[[variable]] <- as.numeric(data[[variable]])
+   data[[age_col]] <- as.numeric(data[[age_col]])
 
    # Load LMS reference data
    wtage <- rio::import(load_extdata("wtage.csv")) %>% dplyr::mutate(variable = "weight")
@@ -94,7 +95,9 @@
 
    # Internal LMS interpolation function
    interpolate_LMS <- function(sex_val, agemos_val, variable, ref_lms_data) {
-     subset_lms <- dplyr::filter(ref_lms_data, sex == sex_val & variable == variable) %>% dplyr::arrange(agemos)
+     subset_lms <- dplyr::filter(lms_combined, sex == 1 & variable == "height") %>% dplyr::arrange(agemos)
+
+     #subset_lms <- dplyr::filter(ref_lms_data, sex == sex_val & variable == variable) %>% dplyr::arrange(agemos)
      if (nrow(subset_lms) == 0) return(rep(NA, 3))
      lower_idx <- max(which(subset_lms$agemos <= agemos_val))
      upper_idx <- min(which(subset_lms$agemos >= agemos_val))
