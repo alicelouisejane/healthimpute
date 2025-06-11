@@ -1,0 +1,40 @@
+Package: healthimpute
+Title: Imputation Tools for Clinical and Growth Chart Data
+Version: 0.1.0
+Authors@R: person(
+    given = "Alice",
+    family = "Carr",
+    email = "acarr1@ualberta.ca",
+    role = c("aut", "cre"),
+    comment = c(ORCID = "0000-0003-0704-8843")
+  )
+Description: Provides imputation tools for longitudinal clinical datasets:
+    (1) 'impute_anthro()' imputes pediatric weight, height, or BMI using interpolated
+    CDC growth chart percentiles via the LMS method.
+    (2) 'impute_timewindow()' performs time-window-based forward or backward
+    imputation of missing values in biomarkers or clinical metrics, using a configurable window (default 30 days).
+    The anthropometric imputation method is based on the CDC growth charts and follows approaches
+    aligned with those described in PMID: 35308906.
+    These tools are designed for longitudinal clinical research datasets where minimising missingness is of importance.    
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.3.2
+Imports:
+    dplyr,
+    tidyr,
+    purrr,
+    rlang,
+    zoo,
+    stats,
+    janitor,
+    anytime,
+    lubridate,
+    stringr,
+    rio,
+    tibble,
+    here,
+    utils
+Suggests: 
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
