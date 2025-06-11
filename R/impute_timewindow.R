@@ -95,7 +95,7 @@ impute_timewindow <- function(data,
   var_sym <- rlang::sym(variable)
   dy_sym <- rlang::sym(dy_col)
   id_sym <- rlang::sym(patient_id_col)
-
+  data[[variable]] <- as.numeric(data[[variable]])
 
 
   # If dy_col is a Date, convert to numeric days from first date per patient
