@@ -59,17 +59,18 @@ result2 <- dplyr::filter(example_data,age_at_visit<=20) %>%
 
 Carries the nearest available non-missing value forward or backward in
 time within a customizable window (default: 30 days). Can be implemented
-for anthropometric data in adults - recomended in those older than 20
+for anthropometric data in adults - recommended in those older than 20
 years (see impute_anthro() for those 20 and under) and other clinical
 measures such as HbA1c or insulin dose. It is not recommended to exceed
-the imputation time window of 30 days or use for anthopometric impuation
-in those under 20 years old.
+the imputation time window of 30 days or use for anthopometric
+imputation in those under 20 years old.
 
 The dy_col parameter indicates the name of the time column which can be
 in the format of either days from some defined baseline or date. The
-is_date parameter enables you to define the sruture of this variable. If
-TRUE, the `dy_col` is a `Date` object and will be converted to numeric
-days. If FALSE, assumes `dy_col` is already numeric. Default is FALSE.
+is_date parameter enables you to define the structure of this variable.
+If TRUE, the `dy_col` is a `Date` object and will be converted to
+numeric days. If FALSE, assumes `dy_col` is already numeric. Default is
+FALSE.
 
 **Example:**
 
