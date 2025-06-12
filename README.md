@@ -32,8 +32,20 @@ example_data <- data.frame(
   weight         = c(NA,  22,   NA,  18,   NA)
 )
 
+#Example 1
 result <- impute_anthro(
   example_data,
+  variable          = "weight",
+  patient_id_col    = "patient_id",
+  age_col           = "age_at_visit",
+  sex_col           = "sex"
+)
+
+#Example 2
+#Use only on those under 20 years old
+result2 <- dplyr::filter(example_data,age_at_visit<=20) %>%
+  impute_anthro(
+  .,
   variable          = "weight",
   patient_id_col    = "patient_id",
   age_col           = "age_at_visit",
@@ -47,10 +59,11 @@ result <- impute_anthro(
 
 Carries the nearest available non-missing value forward or backward in
 time within a customizable window (default: 30 days). Can be implemented
-for anthropometric data in adults older than 20 years (see
-impute_anthro()) and other clinical measures such as HbA1c or insulin
-dose. It is not recommended to exceed the imputation time window of 30
-days.
+for anthropometric data in adults - recomended in those older than 20
+years (see impute_anthro() for those 20 and under) and other clinical
+measures such as HbA1c or insulin dose. It is not recommended to exceed
+the imputation time window of 30 days or use for anthopometric impuation
+in those under 20 years old.
 
 The dy_col parameter indicates the name of the time column which can be
 in the format of either days from some defined baseline or date. The
@@ -67,9 +80,23 @@ example_data <- data.frame(
   hba1c = c(7.2, NA, 7.4, NA, 6.9)
 )
 
+#Example 1
 result <- impute_timewindow(
   example_data,
   variable          = "hba1c",
+  patient_id_col    = "id",
+  dy_col            = "dy",
+  is_date           = FALSE
+)
+
+#Example 2
+#Can be used on anthropometric data however should only be used on those over 20 years old.
+# Use impute_anthro() for those 20 and under - see above. 
+
+result2 <-  dyplr::filter(example_data,age_at_visit>20) %>%
+  impute_timewindow(
+  .,
+  variable          = "weight",
   patient_id_col    = "id",
   dy_col            = "dy",
   is_date           = FALSE
