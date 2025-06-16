@@ -51,6 +51,12 @@
 #'
 #' @export
 
+data<-rio::import("/Users/alicecarr/Desktop/C-path/JDRF aomm grant/USF/clean data/2025-06-16_TN01_USF_initial_clean_dataset_export_ALJC.xlsx")
+variable="heightcm"
+patient_id_col="patient_id"
+age_col="age_at_visit"
+sex_col="sex"
+
  impute_anthro <- function(data, variable,patient_id_col,age_col,sex_col) {
    load_extdata <- function(filename) {
      path <- system.file("extdata", filename, package = "healthimpute")
@@ -166,7 +172,7 @@
      data_inf <- dplyr::bind_cols(data_inf, lms_vals)
    }
 
-   data_new <- dplyr::bind_rows(data_adults, data_inf) %>%
+   data_new <- dplyr::bind_rows(data_adults, data_inf)%>%
      dplyr::mutate(
        observed = !is.na(!!var_sym),
        z = ifelse(observed, zscore_LMS(!!var_sym, L_interp, M_interp, S_interp), NA_real_),
@@ -201,7 +207,12 @@
    data_final <- left_join(data,data_new) %>%
      dplyr::mutate(
        !!variable := ifelse(is.na(!!var_sym), .data[[paste0("imputed_value_", variable)]], !!var_sym),
-       !!paste0(variable, "_carried") := ifelse(observed == FALSE & !is.na(.data[[variable]]), TRUE, FALSE)
+       !!paste0(variable, "_carried") := dplyr::case_when(
+         is.na(.data[[variable]]) ~ NA,                            # Variable is missing → NA
+         observed == FALSE & !is.na(.data[[variable]]) ~ TRUE,                                 # Observed is FALSE → TRUE
+         is.na(observed) & !is.na(.data[[variable]])~ FALSE,                                  # Observed is NA but variable not missing → FALSE
+         TRUE ~ FALSE                                               # All other cases → FALSE
+       )
      ) %>%
      dplyr::select(dplyr::all_of(names(data)), dplyr::contains(c("imputed_value", "carried")))
 
