@@ -63,7 +63,6 @@ utils::globalVariables(c(
 #' )
 #' @export
 
-data<-rio::import("/Users/alicecarr/Desktop/test_antro.csv")
 impute_timewindow <- function(data,
                               variable,
                               patient_id_col,

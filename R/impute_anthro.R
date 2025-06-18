@@ -51,12 +51,6 @@
 #'
 #' @export
 
-data<-rio::import("/Users/alicecarr/Desktop/C-path/JDRF aomm grant/USF/clean data/2025-06-16_TN01_USF_initial_clean_dataset_export_ALJC.xlsx")
-variable="heightcm"
-patient_id_col="patient_id"
-age_col="age_at_visit"
-sex_col="sex"
-
  impute_anthro <- function(data, variable,patient_id_col,age_col,sex_col) {
    load_extdata <- function(filename) {
      path <- system.file("extdata", filename, package = "healthimpute")
