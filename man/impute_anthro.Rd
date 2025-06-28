@@ -26,7 +26,7 @@ A data frame that includes:
 \description{
 This function imputes missing anthropometric values (weight, height, or BMI) in a longitudinal dataset of pediatric and adolescent patients using the LMS method from CDC growth charts. It interpolates LMS values, calculates z-scores and percentiles, flags outliers, and imputes missing percentiles using neighboring timepoints. Measurements are back-calculated from imputed percentiles using the LMS formula.
 
-The function supports individuals aged 0 to 20 years using the CDC infant (0–36 months) and child/adolescent (36–240 months) growth standards.
+The function supports individuals aged 0 to 20 years using the CDC infant (0–24 months) and child/adolescent (>24–240 months) growth standards.
 }
 \details{
 - The input variable name must contain `"weight"`, `"height"`, or `"bmi"`.

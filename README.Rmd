@@ -96,6 +96,36 @@ result2 <-  dyplr::filter(example_data,age_at_visit>20) %>%
 
 ---
 
+### 3. `flag_anthro()`
+Flags biologically implausible anthropometric values—weight, height, or BMI—across the full age spectrum. This function is intended for data quality checks and does not impute missing values.
+
+For individuals under 20 years of age, LMS-based z-scores and percentiles are calculated using CDC growth chart reference data. Values are flagged as implausible if the absolute z-score exceeds 4. For individuals over 20 years, fixed clinical thresholds are applied: BMI is flagged if < 14 or > 50, weight if < 30 kg or > 180 kg, and height if < 120 cm or > 210 cm.
+
+This function is intended to be used alongside impute_anthro() and impute_timewindow() to support robust pre-processing of clinical and anthropometric data.
+
+**Example:**
+
+```r 
+example_data <- data.frame(
+  patient_id     = c(1, 1, 2, 2),
+  sex            = c("M", "M", "F", "F"),
+  age_at_visit   = c(10, 25, 16, 30),
+  weight         = c(28, 200, 35, 29)
+)
+
+result <- flag_anthro(
+  data             = example_data,
+  variable         = "weight",
+  patient_id_col   = "patient_id",
+  age_col          = "age_at_visit",
+  sex_col          = "sex"
+)
+
+```
+
+---
+
+
 ## 📚 References and Acknowledgements
 
 - Li Z, Toppari J, Lundgren M, Frohnert BI, Achenbach P, Veijola R, Anand V; T1DI Study Group. *Imputing Longitudinal Growth Data in International Pediatric Studies: Does CDC Reference Suffice?* AMIA Annu Symp Proc. 2021;2021:754–762. PMID: 35308906. PMCID: [PMC8861671](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8861671/).

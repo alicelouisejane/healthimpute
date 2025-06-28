@@ -3,7 +3,7 @@ utils::globalVariables(c(
   "observed", "L_interp", "M_interp", "S_interp", "z",
   "percentile", "flag", "percentile_new",
   "nearest_result", "Number_Of_Days", "nearest_value",
-  "imputed_value", "obs_time", "obs_value", "row_id"
+  "imputed_value", "obs_time", "obs_value", "row_id","impute_percentile",":="
 ))
 
 #' @title Impute Missing Values Within a Time Window
