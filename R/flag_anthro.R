@@ -19,6 +19,12 @@
 #' @export
 #'
 
+data=rio::import("/Users/alicecarr/Desktop/C-path/JDRF aomm grant/Cpath_prevention_AOMM/test_tn01.csv")
+variable="HEIGHT"
+patient_id_col="USUBJID"
+sex_col="SEX"
+age_col="age_at_visit"
+
 flag_anthro <- function(data, variable, patient_id_col, sex_col, age_col) {
   load_extdata <- function(filename) {
     path <- system.file("extdata", filename, package = "healthimpute")
@@ -65,9 +71,6 @@ flag_anthro <- function(data, variable, patient_id_col, sex_col, age_col) {
   # Internal LMS interpolation function
   interpolate_LMS <- function(sex_val, agemos_val, variable, ref_lms_data) {
     subset_lms <- dplyr::filter(ref_lms_data, sex == sex_val & variable == variable_lms) %>%
-      dplyr::arrange(agemos)
-
-    subset_lms <- dplyr::filter(lms_combined, sex == 1 & variable == "weight") %>%
       dplyr::arrange(agemos)
 
     if (nrow(subset_lms) == 0) return(rep(NA, 3))
