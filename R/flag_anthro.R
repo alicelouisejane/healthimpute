@@ -108,11 +108,6 @@ flag_anthro <- function(data, variable, patient_id_col, sex_col, age_col) {
   data_adults <- prepare_data(data, 24, 240)
   data_inf <- if (!grepl("bmi",variable)) prepare_data(data, 0, 24) else NULL
 
-  # Issue warning if no individuals under 20 years are present
-  if ((nrow(data_adults) == 0) & (is.null(data_inf) || nrow(data_inf) == 0)) {
-    stop("No individuals under 20 years old found in the dataset. This function is designed for pediatric and adolescent data.")
-  }
-
   if (!is.null(data_adults) && nrow(data_adults) > 0) {
     lms_vals <- purrr::pmap_dfr(
       list(data_adults$sex_lms, data_adults$agemos),
