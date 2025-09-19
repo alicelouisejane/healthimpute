@@ -153,7 +153,7 @@ flag_anthro <- function(data, variable, patient_id_col, sex_col, age_col) {
         TRUE ~ FALSE
       )
     ) %>%
-    select(-c(L_interp,M_interp,S_interp))
+    dplyr::select(-c(L_interp,M_interp,S_interp))
 
 
   return(data_final_flag)

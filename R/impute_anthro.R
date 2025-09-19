@@ -195,7 +195,7 @@
    data_new[[paste0("imputed_value_", variable)]] <- imputed_vals
 
    data_new<-data_new %>%
-     select(-sex_lms)
+     dplyr::select(-sex_lms)
 
    data_final <- left_join(data,data_new) %>%
      dplyr::mutate(
