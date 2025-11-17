@@ -147,6 +147,7 @@ flag_anthro <- function(data, variable, patient_id_col, sex_col, age_col) {
       !!paste0("percentile_", variable) := pmin(stats::pnorm(!!z_sym) * 100, 99.999),
       !!paste0("implausible_", variable) := dplyr::case_when(
         age_at_visit <= 20 & abs(!!z_sym) > 4 | abs(!!z_sym) < -4 ~ TRUE,
+        age_at_visit <= 20 & is_bmi & (!!var_sym < 10 | !!var_sym > 50) ~ TRUE, #need to add this manual check because z scores get squished at extreme tails because BMI was fitted on tiny physiologic range so outliers wont actually get detected by LMS
         age_at_visit > 20 & is_bmi & (!!var_sym < 14 | !!var_sym > 50) ~ TRUE,
         age_at_visit > 20 & is_weight & (!!var_sym < 30 | !!var_sym > 180) ~ TRUE,
         age_at_visit > 20 & is_height & (!!var_sym < 120 | !!var_sym > 210) ~ TRUE,
